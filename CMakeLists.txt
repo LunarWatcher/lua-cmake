@@ -28,7 +28,7 @@ add_library(lua ${SRC_LIBLUA})
 
 target_compile_definitions(lua
     PRIVATE
-    $<$<PLATFORM_ID:Linux>:LUA_USE_LINUX LUA_COMPAT_5_2>)
+    $<$<PLATFORM_ID:Linux>:LUA_USE_LINUX>)
 
 target_compile_options(lua
     PRIVATE
