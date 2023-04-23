@@ -3,7 +3,6 @@ project(lua-cmake VERSION 1.0.0 DESCRIPTION "Lua build for CMake with FetchConte
 
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
 option(LUA_TAG "The tag to use for Lua" "v5.4.4")
-option(LUA_CPP "Whether or not to build for C++. Note: on by default because I'm biased and more or less exclusively use C++" ON)
 
 include(FetchContent)
 FetchContent_Declare(luasource
