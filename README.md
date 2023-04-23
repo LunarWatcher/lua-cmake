@@ -8,7 +8,7 @@ FetchContent_Declare(lua
     GIT_REPOSITORY https://github.com/LunarWatcher/lua-cmake)
 FetchContent_MakeAvailable(lua)
 ...
-target_link_libraries(your-lib lua::lua)
+target_link_libraries(your-lib lua::lib)
 ```
 
 To use a different version of lua, use `set(LUA_TAG "v1.2.3" CACHE STRING "" FORCE)` prior to the code above.
