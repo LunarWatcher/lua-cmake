@@ -1,23 +1,30 @@
-
 cmake_minimum_required(VERSION 3.12)
-project(lua-cmake VERSION 1.0.0 DESCRIPTION "Lua build for a project subdirectory" LANGUAGES C)
+project(lua-cmake VERSION 1.0.0 DESCRIPTION "Lua build for CMake with FetchContent")
 
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
+option(LUA_TAG "The tag to use for Lua" "v5.4.4")
+option(LUA_CPP "Whether or not to build for C++. Note: on by default because I'm biased and more or less exclusively use C++" ON)
 
-set(srcDir upstream)
+include(FetchContent)
+FetchContent_Declare(luasource
+    GIT_REPOSITORY https://github.com/lua/lua
+    GIT_TAG ${LUA_TAG})
+FetchContent_MakeAvailable(luasource)
 
-set(srcFiles lapi.c lauxlib.c lbaselib.c lcode.c lcorolib.c lctype.c ldblib.c ldebug.c ldo.c
-    ldump.c lfunc.c lgc.c linit.c liolib.c llex.c lmathlib.c lmem.c loadlib.c lobject.c lopcodes.c
-    loslib.c lparser.c lstate.c lstring.c lstrlib.c ltable.c ltablib.c ltests.c ltm.c lundump.c
-    lutf8lib.c lvm.c lzio.c)
+
+file(GLOB SRC_LIBLUA "${luasource_SOURCE_DIR}/*.c")
+set (CMAKE_C_STANDARD 99)
+
+
+# We'll exclude the interpreter and compiler because I'm lazy :D 
+# These could be included, but they'd have to be separate and built with add_executable, and realistically, people using this project
+# aren't going to use it for the executables.
+set(LUAEXEC ${luasource_SOURCE_DIR}/lua.c ${luasource_SOURCE_DIR}/luac.c ${luasource_SOURCE_DIR}/onelua.c)
+list(REMOVE_ITEM SRC_LIBLUA ${LUAEXEC})
 
 set(publicHeaderFiles lauxlib.h lua.h luaconf.h lualib.h)
 
-list(TRANSFORM srcFiles PREPEND ${srcDir}/)
-list(TRANSFORM publicHeaderFiles PREPEND ${srcDir}/)
-
-add_library(lua
-    ${srcFiles})
+add_library(lua ${SRC_LIBLUA})
 
 target_compile_definitions(lua
     PRIVATE
@@ -30,15 +37,15 @@ target_compile_options(lua
     -Wdisabled-optimization -Waggregate-return -Wdouble-promotion -Wdeclaration-after-statement
     -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes -Wc++-compat -Wold-style-definition>)
 
-set(includeDir ${CMAKE_CURRENT_BINARY_DIR}/include)
-file(COPY ${publicHeaderFiles} DESTINATION ${includeDir})
+#set(includeDir ${CMAKE_CURRENT_BINARY_DIR}/include)
+#file(COPY ${publicHeaderFiles} DESTINATION ${includeDir})
 
 add_library(lua-header
     INTERFACE)
 
 target_include_directories(lua-header
     INTERFACE
-    ${includeDir})
+    ${luasource_SOURCE_DIR})
 
 target_link_libraries(lua
     INTERFACE
