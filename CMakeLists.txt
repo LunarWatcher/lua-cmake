@@ -30,6 +30,7 @@ target_compile_definitions(lua
     PRIVATE
     $<$<PLATFORM_ID:Linux>:LUA_USE_LINUX>)
 
+# Wtf is this for?
 target_compile_options(lua
     PRIVATE
     $<$<OR:$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:Clang>,$<C_COMPILER_ID:GNU>>:
@@ -43,6 +44,7 @@ target_compile_options(lua
 add_library(lua-header
     INTERFACE)
 
+# This is lazy as fuck
 target_include_directories(lua-header
     INTERFACE
     ${luasource_SOURCE_DIR})
