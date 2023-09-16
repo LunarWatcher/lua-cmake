@@ -4,6 +4,10 @@ project(lua-cmake VERSION 1.0.0 DESCRIPTION "Lua build for CMake with FetchConte
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
 option(LUA_TAG "The tag to use for Lua" "v5.4.4")
 
+if (WIN32)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
 include(FetchContent)
 FetchContent_Declare(luasource
     GIT_REPOSITORY https://github.com/lua/lua
