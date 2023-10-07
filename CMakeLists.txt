@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(lua-cmake VERSION 1.0.0 DESCRIPTION "Lua build for CMake with FetchContent")
+project(lua-cmake VERSION 1.0.1 DESCRIPTION "Lua build for CMake with FetchContent")
 
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
 option(LUA_TAG "The tag to use for Lua" "v5.4.4")
@@ -21,8 +21,6 @@ set (CMAKE_C_STANDARD 99)
 set(LUAEXEC ${luasource_SOURCE_DIR}/lua.c ${luasource_SOURCE_DIR}/luac.c ${luasource_SOURCE_DIR}/onelua.c)
 list(REMOVE_ITEM SRC_LIBLUA ${LUAEXEC})
 
-set(publicHeaderFiles lauxlib.h lua.h luaconf.h lualib.h)
-
 add_library(lua ${SRC_LIBLUA})
 
 target_compile_definitions(lua
@@ -37,16 +35,13 @@ target_compile_options(lua
     -Wdisabled-optimization -Waggregate-return -Wdouble-promotion -Wdeclaration-after-statement
     -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes -Wc++-compat -Wold-style-definition>)
 
-#set(includeDir ${CMAKE_CURRENT_BINARY_DIR}/include)
-#file(COPY ${publicHeaderFiles} DESTINATION ${includeDir})
-
 add_library(lua-header
     INTERFACE)
 
 # This is lazy as fuck
 target_include_directories(lua-header
     INTERFACE
-    ${luasource_SOURCE_DIR})
+    ${luasource_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
 target_link_libraries(lua
     INTERFACE
@@ -54,3 +49,5 @@ target_link_libraries(lua
 
 add_library(lua::lib ALIAS lua)
 add_library(lua::header ALIAS lua-header)
+
+add_subdirectory(test EXCLUDE_FROM_ALL)
