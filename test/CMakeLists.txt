@@ -6,9 +6,9 @@ add_executable(lua-cmake-c-tests
     src/c/IncludeTests.c
 )
 
-target_link_libraries(c-tests PUBLIC lua::lib m)
-target_link_libraries(cpp-tests PUBLIC lua::lib)
+target_link_libraries(lua-cmake-c-tests PUBLIC lua::lib m)
+target_link_libraries(lua-cmake-cpp-tests PUBLIC lua::lib)
 
 add_custom_target(test-lua-cmake-lib
-    DEPENDS lua-cmake-c-tests lua-cpp-tests
+    DEPENDS lua-cmake-c-tests lua-cmake-cpp-tests
 )
