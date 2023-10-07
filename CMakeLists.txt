@@ -55,5 +55,5 @@ add_library(lua::lib ALIAS lua)
 add_library(lua::header ALIAS lua-header)
 
 if (PROJECT_IS_TOP_LEVEL)
-    add_subdirectory(test EXCLUDE_FROM_ALL)
+    add_subdirectory(test)
 endif()

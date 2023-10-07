@@ -8,7 +8,3 @@ add_executable(lua-cmake-c-tests
 
 target_link_libraries(lua-cmake-c-tests PUBLIC lua::lib m)
 target_link_libraries(lua-cmake-cpp-tests PUBLIC lua::lib)
-
-add_custom_target(test-lua-cmake-lib
-    DEPENDS lua-cmake-c-tests lua-cmake-cpp-tests
-)

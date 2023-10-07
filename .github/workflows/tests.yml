@@ -14,7 +14,7 @@ jobs:
           mkdir build
           cd build
           cmake ..
-          make test-lua-cmake-lib
+          make -j $(nproc)
       - name: Verify binaries
         run: |
           cd build
