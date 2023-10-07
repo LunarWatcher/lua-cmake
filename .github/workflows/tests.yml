@@ -14,9 +14,9 @@ jobs:
           mkdir build
           cd build
           cmake ..
-          make test
+          make test-lua-cmake-lib
       - name: Verify binaries
         run: |
           cd build
-          ./test/cpp-tests
-          ./test/c-tests
+          ./test/lua-cmake-cpp-tests
+          ./test/lua-cmake-c-tests

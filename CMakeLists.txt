@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.21)
 project(lua-cmake VERSION 1.0.1 DESCRIPTION "Lua build for CMake with FetchContent")
 
 option(BUILD_SHARED_LIBS "Build as shared library" ON)
@@ -54,4 +54,6 @@ target_link_libraries(lua
 add_library(lua::lib ALIAS lua)
 add_library(lua::header ALIAS lua-header)
 
-add_subdirectory(test EXCLUDE_FROM_ALL)
+if (PROJECT_IS_TOP_LEVEL)
+    add_subdirectory(test EXCLUDE_FROM_ALL)
+endif()
